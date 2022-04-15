@@ -46,3 +46,39 @@
 - python 크롤링
 - 웹 챗봇?
 - 지도 API 활용
+
+# 밀키트 상점
+
+## 유저들 소셜 커뮤니티
+
+## 올린 재료들로 밀키트 구성
+
+## 모디슈머
+- 자기가 섞어서 만든 제품을 광고
+- 좋아요나 팔로우 같은 기능으로 상단노출
+- 밀키트 출시?
+- 지역특산물
+
+## 커스텀 모디슈머
+- 완성된 음식에서 구매자가 또 다른 커스텀
+- 커스텀의 커스텀
+
+## 기능
+- admin
+- user
+- board
+- product
+- 구매
+
+## 사용툴 예정
+- react, thymeleaf
+- spring boot, node express
+- mybatis, jpa
+- oracle, mongoDB, mariaDB
+- AWS배포
+- ci/cd
+
+## 하고싶은것들
+- 트래픽 테스트
+- 세션 테스트(로그인관련)
+- https
