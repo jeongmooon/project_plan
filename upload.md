@@ -28,3 +28,41 @@ POST/save HTTP/1.1 Host:localhost:8080 Content-Type:multipart/form-data,boundary
 
 ## **
 클라이언트가 Form을 통해 파일을 보내면, 보통 폼에 입력한 항목들을 같이 전송하기 때문에 MultipartForm을 사용하여 보내게 된다. 말 글대로 여러 파트로 구분하여 보내어 지는데 이것을 스프링은 MultipartFile 인터페이스가 지원된다
+
+## Spring 에서 파일 업로드하기 
+
+- Spring 에서 코드(예시임)
+```
+@PostMapping("/testRequestParam")
+	public String testControllerRequestParam(MultipartFile file) throws Exception {
+		String projectPath = System.getProperty("user.dir")+ "\\src\\main\\resources\\static";
+		UUID uuid = UUID.randomUUID();
+		String fileName = uuid+"_"+file.getOriginalFilename();
+		File saveFile = new File(projectPath,fileName);
+		
+		file.transferTo(saveFile);
+		
+		//setFileName(fileName);
+		//setFilepath()
+		
+		return "Hello World ";
+	}
+```
+
+- html
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="/test/testRequestParam" enctype="multipart/form-data" method="post">
+		<input type="file" name="file" />
+		<button type="submit">작성</button>
+	</form>
+</body>
+</html>
+```
