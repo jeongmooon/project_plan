@@ -31,6 +31,8 @@
 
 ## 예제
 
+### 단일 업로드 
+
 - view
 ```
 <form action="/product/addProduct" method="post" enctype="multipart/form-data">
@@ -57,4 +59,49 @@
 		return "맵핑";
 	}
 
+```
+
+### 멀티업로드
+-
+```
+<form action="/product/addProduct" method="post" enctype="multipart/form-data">
+    <input tpye="file" name="file" />
+    <button type="submit">보내기</button>
+</form>
+```
+
+- server
+```
+
+@RequestMapping(value="addProduct", method = RequestMethod.POST)
+	public String addProduct(@ModelAttribute("product") Product product,MultipartHttpServletRequest mRequest) throws Exception{
+		System.out.println("/addProduct");
+		System.out.println(file);
+		System.out.println("\n\n"+mRequest+"\n\n");
+		product.setManuDate(product.getManuDate().replace("-", ""));
+		String projectPath = 경로;
+		
+		List<MultipartFile> fileList = mRequest.getFiles("file");
+		
+		for(MultipartFile mf : fileList) {
+			String originName = mf.getOriginalFilename();
+			long fileSize = mf.getSize();
+			
+			System.out.println("원본이름 : "+ originName);
+			System.out.println("파일사이즈 : "+fileSize);
+			
+			UUID uuid = UUID.randomUUID();
+			String fileName = uuid+"_"+originName;
+			
+			File saveFile = new File(projectPath,fileName);
+			//파일생성 = 새로운파일(저장경로, 저장하는이름)
+			mf.transferTo(saveFile);
+			// 파일 저장하기
+			product.setFileName(fileName);
+		}		
+		
+		System.out.println(product);
+		productService.addProduct(product);
+		return "forward:/product/addProduct.jsp";
+	}
 ```
