@@ -35,15 +35,15 @@
 
 - view
 ```
-<form action="/product/addProduct" method="post" enctype="multipart/form-data">
-    <input tpye="file" name="file" />
-    <button type="submit">보내기</button>
-</form>
+	<form action="/product/addProduct" method="post" enctype="multipart/form-data">
+	    <input tpye="file" name="file" />
+	    <button type="submit">보내기</button>
+	</form>
 ```
 
 - server
 ```
-@PostMapping("/testRequestParam")
+	@PostMapping("/testRequestParam")
 	public String testControllerRequestParam(MultipartFile file,@ModelAttribute 도메인객체 변수명) throws Exception {
 
 		String projectPath = System.getProperty("user.dir")+ "\\src\\main\\resources\\static";
@@ -62,44 +62,45 @@
 ```
 
 ### 멀티업로드
--
+- view
 ```
-<form action="/product/addProduct" method="post" enctype="multipart/form-data">
-    <input tpye="file" name="file" />
-    <button type="submit">보내기</button>
-</form>
+	<form action="/product/addProduct" method="post" enctype="multipart/form-data">
+	    <input tpye="file" name="file" />
+	    <button type="submit">보내기</button>
+	</form>
 ```
 
 - server
 ```
 
-@RequestMapping(value="addProduct", method = RequestMethod.POST)
+	@RequestMapping(value="addProduct", method = RequestMethod.POST)
 	public String addProduct(@ModelAttribute("product") Product product,MultipartHttpServletRequest mRequest) throws Exception{
 		System.out.println("/addProduct");
-		System.out.println(file);
+
+		// 파일 저장된객체 확인하기
 		System.out.println("\n\n"+mRequest+"\n\n");
 		product.setManuDate(product.getManuDate().replace("-", ""));
 		String projectPath = 경로;
-		
+
 		List<MultipartFile> fileList = mRequest.getFiles("file");
-		
+
 		for(MultipartFile mf : fileList) {
 			String originName = mf.getOriginalFilename();
 			long fileSize = mf.getSize();
-			
+
 			System.out.println("원본이름 : "+ originName);
 			System.out.println("파일사이즈 : "+fileSize);
-			
+
 			UUID uuid = UUID.randomUUID();
 			String fileName = uuid+"_"+originName;
-			
+
 			File saveFile = new File(projectPath,fileName);
 			//파일생성 = 새로운파일(저장경로, 저장하는이름)
 			mf.transferTo(saveFile);
 			// 파일 저장하기
 			product.setFileName(fileName);
 		}		
-		
+
 		System.out.println(product);
 		productService.addProduct(product);
 		return "forward:/product/addProduct.jsp";
